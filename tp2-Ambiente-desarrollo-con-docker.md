@@ -87,7 +87,7 @@ sha256:673c0c1c676540d1de27f70bf6e489d843ba7990433509218f1cd5b94e7d86d1
 # Listamos las imagenes para ver que se creo correctamente
 > docker images
 REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
-mi_debian    1.0       673c0c1c6765   21 seconds ago   413MB
+mi_debian    1.0       673c0c1c6765   21 seconds ago   413MB # <-- Imagen creada
 app-react    latest    f174c9776479   28 hours ago     382MB
 debian       13.0      6d8737501634   2 weeks ago      183MB
 postgres     latest    4d89c9048352   2 months ago     621MB
@@ -98,4 +98,76 @@ mongo        6.0.6     e3fa459b4f4b   2 years ago      907MB
 > docker run -dit --name ctapache01 -p 50:80 mi_debian:1.0 apache2ctl -D FOREGROUND
 2f238240ba8300d7e1f3feda9912eed432013614fe719107631f0adfc58756cc
 
+# Para iniciar el contenedor
+> docker start ctapache01 # Podemos iniciar con el nombre del contenedor
+> docker start 2f2  # Podemos iniciar con los primeros 3 digitos del ID del contenedor
+
 ```
+
+4. Suba la imagen creada anteriormente a Docker hub, comandos a utilizar "Docker login" y "Docker
+   push". Investigue el proceso. Recuerde que el nombre de la imagen deber�a seguir el siguiente formato
+   username/appestatica:v1.
+
+- Primero debemos loguearnos en docker hub
+
+[Pagina web - Docker Hub](https://hub.docker.com/)
+
+![Login deocker hub](./img/docker-hub-login.png)
+
+- Luego debemos crear el repositorio en docker hub
+
+![Entrar en el apartado de repositorio](./img/crear-repositorio.png)
+
+- Agregamos el nombre del repositorio y la descripcion
+
+![nombre del repositorio creado](./img/nombre-repositorio.png)
+
+- Debemos renombrar la imagen creada con el formato `username/appestatica:v1`
+
+```bash
+> docker images
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+mi_debian    1.0       7905dfd1e609   4 days ago     413MB # <-- Imagen que debemos hacer push al docker hub
+app-react    latest    f174c9776479   6 days ago     382MB
+debian       13.0      6d8737501634   3 weeks ago    183MB
+postgres     latest    4d89c9048352   2 months ago   621MB
+mongo        6.0.6     e3fa459b4f4b   2 years ago    907MB
+
+> docker image tag mi_debian:1.0 martinezcabj12/appestatica:v1
+
+> docker images
+REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+mi_debian                    1.0       7905dfd1e609   4 days ago     413MB
+martinezcabj12/appestatica   v1        7905dfd1e609   4 days ago     413MB
+app-react                    latest    f174c9776479   6 days ago     382MB
+debian                       13.0      6d8737501634   3 weeks ago    183MB
+postgres                     latest    4d89c9048352   2 months ago   621MB
+mongo                        6.0.6     e3fa459b4f4b   2 years ago    907MB
+```
+
+- Debemos iniciar sesion en docker hub desde la terminal
+
+```bash
+> docker login
+Authenticating with existing credentials... [Username: martinezcabj12]
+
+i Info -> To login with a different account, run 'docker logout' followed by 'docker login'
+
+
+Login Succeeded
+```
+
+- Ahora debemos hacer push de la imagen creada a docker hub con the tag correspondiente
+
+```bash
+> docker push martinezcabj12/appestatica:v1
+The push refers to repository [docker.io/martinezcabj12/appestatica]
+98229db7801f: Pushed
+80b7316254b3: Mounted from library/debian
+v1: digest: sha256:7905dfd1e6098e9eac4f136d44005286806ff4696e20c1acbfceb83d1e0d9400 size: 750
+# Tenemos la imagen subida a docker hub
+```
+
+![imagen subida al repositorio con tag de version](./img/imagen-subida.png)
+
+- Ahora podemos ejecutar el contenedor desde cualquier maquina que tenga docker instalado
