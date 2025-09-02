@@ -171,3 +171,18 @@ v1: digest: sha256:7905dfd1e6098e9eac4f136d44005286806ff4696e20c1acbfceb83d1e0d9
 ![imagen subida al repositorio con tag de version](./img/imagen-subida.png)
 
 - Ahora podemos ejecutar el contenedor desde cualquier maquina que tenga docker instalado
+
+### Punto 2 - Gestion de Redes - Linea de comando
+
+1. Cree en una red redPractica un contenedor de Base de Datos wpbd con mysql. Haga que el mismo
+   exponga su puerto 3306 hacia afuera
+
+```bash
+# Creamos el contenedor de mysql en la red redPractica
+> docker network create redPractica
+# De esta manera creamos la red
+d1e2f3b4c5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7
+
+# Ahora creamos el contenedor de mysql en la red creada
+> docker run -dit --name wpbd --network redPractica -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wppassword -p 3306:3306 mysql:latest
+```
