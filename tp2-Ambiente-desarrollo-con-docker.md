@@ -184,5 +184,28 @@ v1: digest: sha256:7905dfd1e6098e9eac4f136d44005286806ff4696e20c1acbfceb83d1e0d9
 d1e2f3b4c5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7
 
 # Ahora creamos el contenedor de mysql en la red creada
-> docker run -dit --name wpbd --network redPractica -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wppassword -p 3306:3306 mysql:latest
+> docker run -dit --name wpbd --network redPractica -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wppassword -p 3306:3306 mysql:9.4.0
+
+# Los env son para setear las variables de entorno necesarias para la creacion de la base de datos
+# MYSQL_ROOT_PASSWORD es obligatorio
+# MYSQL_DATABASE es para crear la base de datos al iniciar el contenedor
+# MYSQL_USER y MYSQL_PASSWORD son para crear un usuario con permisos sobre la base de datos creada
+# La version 9.4.0 es la ultima version estable al momento de hacer la practica
 ```
+
+2. Utilice un cliente (Windows o web) de Base de Datos (dbeaver, dbschema, phpmyadmin, etc) y
+   conectese al contenedor creado anteriormente, luego de hacerlo cree una base de datos bdwordpress.
+
+- Usaremos `TablePlus` como cliente de base de datos
+
+![cliente table plus](./img/tableplus.png)
+
+- Configuramos la conexion con los datos del contenedor y haremos un test de conexion
+
+![configuracion con el servicio](./img/conexion-db.png)
+
+- crearemos la base de datos `bdwordpress`
+
+![script para crear la base de datos](./img/creandoDB.png)
+
+![comprobando la base de dato](./img/comprobandoBD.png)
