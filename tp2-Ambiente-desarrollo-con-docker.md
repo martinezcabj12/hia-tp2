@@ -209,3 +209,43 @@ d1e2f3b4c5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7
 ![script para crear la base de datos](./img/creandoDB.png)
 
 ![comprobando la base de dato](./img/comprobandoBD.png)
+
+3. Cree un contenedor wpserver en redPractica utilizando la informacion de wordpress en dockerhub
+   (https://hub.docker.com/_/wordpress ).
+   Nota: Los parametros de conexion a la base de datos son opcionales en el momento de creacion del
+   contenedor y puede especificarlos cuando acceda al contenedor e inicie el proceso de instalacion.
+
+```bash
+# Creamos el contenedor de wordpress en la red redPractica
+> docker run -dit --name wpserver \
+  --network redPractica \
+  -p 8080:80 \
+  wordpress:latest
+```
+
+- Servimos el sitio web en el puerto 8080
+
+![wordpress inicio de configuracion](./img/wordpress.png)
+
+4. Instale Wordpress especificando los parametros de conexion a la base de datos segun el instalador.
+   Como "Titulo del Sitio" especifique "Blog de Apellido y Nombre - LU".
+
+- Ingresar la configuracion de la base de datos que pide wordpress
+
+![configuracion de la base de datos con wordpress](./img/conectar-db-wordpress.png)
+
+![finalizacion de conexion con la base de datos](./img/wordpress-finalizacion-db.png)
+
+- Ingresar los datos del sitio
+
+![configuracion de wordpress](./img/titulo-wordpress.png)
+
+5. Dentro de WordPress cree una p�gina "Mi Desarrollo" de contenido ponga el texto "En desarrollo .".
+
+- Debemos crear una pagina nueva
+
+![pagina nueva](./img/pagina-nueva.png)
+
+- pagina publicada con lo especificado
+
+![mi desarrollo](./img/mi-desarrollo.png)
