@@ -249,3 +249,75 @@ d1e2f3b4c5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7
 - pagina publicada con lo especificado
 
 ![mi desarrollo](./img/mi-desarrollo.png)
+
+### Punto 3 - Gestion de Imágen - Dockerfile
+
+1. Haga el mismo desarrollo que el PUNTO1 utilizando dockerfile para construir la nueva imagen basada
+   en el deb�an 13, con apache y sitio est�tico. La �nica diferencia es que apache expondr� el puerto 60
+   para ser accedido desde afuera. A partir de la nueva imagen cree un container de nombre "ctapache02"
+   para poder acceder al nuevo servidor web apache.
+
+- Dentro de la carpeta tp2 crear una carpeta llamada `punto3` y dentro de la misma un archivo
+  llamado `Dockerfile` con el siguiente contenido:
+
+```Dockerfile
+# Imagen Base
+FROM debian:13
+
+# Actualizar e instalar dependencias
+RUN apt-get update && apt-get install -y apache2 && apt-get install -y vim && apt-get clean
+
+# Copiamos el sitio web al directorio de Apache
+COPY index.html /var/www/html/
+
+# Exponer el puerto 60
+EXPOSE 60
+
+# Apache necesita correr en foreground para que el contenedor no se detenga
+CMD ["apachectl", "-D", "FOREGROUND"]
+```
+
+- Tambien dentro de la carpeta `punto3` crear un archivo llamado `index.html` con el
+  siguiente contenido:
+
+```html
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Punto 3 - Apache</title>
+  </head>
+  <body>
+    <h1>Bienvenido al servidor Apache</h1>
+    <p>Este es un sitio estático de prueba.</p>
+  </body>
+</html>
+```
+
+- ejecutamos el siguiente comando en la terminal posicionados en la carpeta `punto3` para crear la imagen
+
+```bash
+# Esto crear un nueva imagen con nombre mi_apache-p3
+docker build -t mi_apache-p3 .
+
+# Creamos el contenedor mapeando el puerto 60 del contenedor al puerto 60 de la maquina host
+docker run -dit --name ctapache02 -p 60:60 mi_apache-p3
+```
+
+2. Conectese al contenedor y modifique el sitio estatico de manera que en alguna parte de la pagina
+   principal salga el texto "Punto3 - Gestion de dockerfile" - "apellido y nombre".
+
+- Para editar el sitio web debemos ingresar al contenedor
+
+```bash
+docker exec -it ctapache02 bash
+
+# Nos posicionamos en el directorio donde esta el index.html
+vim /var/www/html/index.html
+# agregamos el texto solicitado
+# <p>Punto3 - Gestion de dockerfile - Martinez, Dario Abel</p>
+```
+
+- Ingresamos a la pagina web para ver los cambios
+
+[Link LocalHost:60](http://localhost:60)
